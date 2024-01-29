@@ -2,7 +2,7 @@
 title: "【Laravel】syncで中間テーブルへの挿入・削除を楽にする"
 emoji: "🀄️"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [topics: ["Laravel", "PHP"]]
+topics: ["Laravel", "PHP"]
 published: false
 ---
 
@@ -25,11 +25,26 @@ https://readouble.com/laravel/10.x/ja/eloquent-relationships.html
 
 ## 環境構築
 
-## 今回作成するもの
+Laravelの環境はLaravel Sailで構築します。  
+`curl -s "https://laravel.build/middleware-test?with=mysql" | bash`
+
+`./vendor/bin/sail up`でコンテナを起動します。
+
 
 ## モデル・テーブルの準備
 
+今回は中間テーブルの例として、ブログ記事テーブルとタグテーブルを想定します。
+
+`php artisan make:model Post --migration`
+`php artisan make:model Tag --migration`
+
+## データの用意
+
+seed
+
 ## リレーションを定義する
+
+`belongsToMany`を両者につける
 
 ## フォームの作成
 
