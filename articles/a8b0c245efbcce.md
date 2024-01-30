@@ -35,12 +35,47 @@ Laravelの環境はLaravel Sailで構築します。
 
 今回は中間テーブルの例として、ブログ記事テーブルとタグテーブルを想定します。
 
+### posts（記事)テーブル
+
 `php artisan make:model Post --migration`
+
+```PHP:database/migrations/2024_01_30_103649_create_posts_table.php
+Schema::create('posts', function (Blueprint $table) {
+    $table->id();
+    $table->string('title');
+    $table->string('body');
+    $table->timestamps();
+});
+```
+
+記事テーブルには、一応タイトルとボディカラムを追加しました😺
+
+### tags(タグ)テーブル
 `php artisan make:model Tag --migration`
+
+```PHP:database/migrations/2024_01_30_103656_create_tags_table.php
+Schema::create('tags', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->timestamps();
+});
+```
+
+### 中間テーブル
+
+`php artisan make:migration create_post_tag_table`
+
+```PHP:database/migrations/2024_01_30_104404_create_post_tag_table.php
+Schema::create('post_tag', function (Blueprint $table) {
+    $table->foreignId('post_id')->constrained();
+    $table->foreignId('tag_id')->constrained();
+    $table->timestamps();
+});
+```
 
 ## データの用意
 
-seed
+
 
 ## リレーションを定義する
 
