@@ -73,16 +73,107 @@ Schema::create('post_tag', function (Blueprint $table) {
 });
 ```
 
-## データの用意
+## タグデータの用意
+シードを利用してデータを用意します😺
 
+```PHP:database/seeders/DatabaseSeeder.php
+public function run(): void {
+    DB::table('tags')->insert(
+        [
+            [
+                'name' => 'hoge',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'fuga',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'piyo',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'foo',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'bar',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        ],
+    );
+}
+```
 
+`php artisan db:seed`を実行します。
+
+データを作成できました😺
+
+![tag](https://storage.googleapis.com/zenn-user-upload/6347145c2a6c-20240131.png)
 
 ## リレーションを定義する
 
-`belongsToMany`を両者につける
+リレーションを定義します。  
+今回は多対多の関係になるので、`BelongsToMany`を使います。
 
-## フォームの作成
+```PHP:app/Models/Post.php
+<?php
 
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class Post extends Model
+{
+    use HasFactory;
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+}
+```
+
+```PHP:app/Models/Tag.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class Tag extends Model
+{
+    use HasFactory;
+
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class);
+    }
+}
+
+```
+
+## コントローラー作成
+
+リソースコントローラーというものがあったので、それを使います😺
+
+`php artisan make:controller PostController --model=Post --resource`
+
+CRUDのアクションを定義してくれます。
+（もちろん具体的な処理は自分で書かないといけませんが）
+
+## ルーティング作成
+
+## ビュー作成
 
 
 # おわりに
